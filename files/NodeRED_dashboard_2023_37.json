@@ -1,0 +1,488 @@
+[
+    {
+        "id": "b4f12f6d1a3c50db",
+        "type": "tab",
+        "label": "IoT_NodeRedDashboard_037",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "091701c7c549f494",
+        "type": "inject",
+        "z": "b4f12f6d1a3c50db",
+        "name": "Start",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 110,
+        "y": 620,
+        "wires": [
+            [
+                "43a94a0116dc00be",
+                "a588e212cf99f28e"
+            ]
+        ]
+    },
+    {
+        "id": "43a94a0116dc00be",
+        "type": "file in",
+        "z": "b4f12f6d1a3c50db",
+        "name": "read file -  Future prediction",
+        "filename": "C:\\Users\\DELL\\Desktop\\IoTAssignment\\Dashboard\\Future_Prediction\\future_prediction.csv",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 340,
+        "y": 520,
+        "wires": [
+            [
+                "37a12094470d4741"
+            ]
+        ]
+    },
+    {
+        "id": "37a12094470d4741",
+        "type": "csv",
+        "z": "b4f12f6d1a3c50db",
+        "name": "csv - Future prediction",
+        "sep": ",",
+        "hdrin": true,
+        "hdrout": "all",
+        "multi": "mult",
+        "ret": "\\n",
+        "temp": "",
+        "skip": "0",
+        "strings": true,
+        "include_empty_strings": "",
+        "include_null_values": "",
+        "x": 580,
+        "y": 520,
+        "wires": [
+            [
+                "57bfe6658f4ffb2c"
+            ]
+        ]
+    },
+    {
+        "id": "57bfe6658f4ffb2c",
+        "type": "function",
+        "z": "b4f12f6d1a3c50db",
+        "name": "function - Future prediction",
+        "func": "\nvar payload = msg.payload;\n\nvar data_out = [];\nvar a1 = [];\n\nfor (let i = 0; i < payload.length; i++) {\n    var dt = payload[i].dt.split(\"-\");\n    var t = dt[1] + \"/\" + dt[2] + \"/\" + dt[0];\n    var temp1 = { \"x\": payload[i].dt, \"y\": parseInt(payload[i][\"Future Predictions\"]) };\n    a1.push(temp1);\n\n}\ndata_out = [a1];\nmsg.payload = [{\n    \"series\": [\"FuturePredictions\"],\n    \"data\": data_out,\n    \"labels\": [\"FuturePredictions\"]\n\n\n\n}];\n\nmsg.t = t;\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 860,
+        "y": 520,
+        "wires": [
+            [
+                "6dd3e5bcc0b97a5f"
+            ]
+        ]
+    },
+    {
+        "id": "6dd3e5bcc0b97a5f",
+        "type": "ui_chart",
+        "z": "b4f12f6d1a3c50db",
+        "name": "chart - Future prediction",
+        "group": "74963d7a01af305e",
+        "order": 2,
+        "width": 8,
+        "height": 10,
+        "label": "",
+        "chartType": "line",
+        "legend": "true",
+        "xformat": "Y-M-D",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "40",
+        "ymax": "100",
+        "removeOlder": "365",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "86400",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#b31e1e",
+            "#e9afaf",
+            "#ff0f0f",
+            "#a02c2c",
+            "#df8b8b",
+            "#d72828",
+            "#ff9896",
+            "#bc6767",
+            "#d5afaf"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 970,
+        "y": 620,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a588e212cf99f28e",
+        "type": "file in",
+        "z": "b4f12f6d1a3c50db",
+        "name": "read file - Past prediction",
+        "filename": "C:\\Users\\DELL\\Desktop\\IoTAssignment\\Dashboard\\Past_Prediction\\past_prediction.csv",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 330,
+        "y": 720,
+        "wires": [
+            [
+                "d9391c6f0fe74085"
+            ]
+        ]
+    },
+    {
+        "id": "d9391c6f0fe74085",
+        "type": "csv",
+        "z": "b4f12f6d1a3c50db",
+        "name": "csv - Past prediction",
+        "sep": ",",
+        "hdrin": true,
+        "hdrout": "all",
+        "multi": "mult",
+        "ret": "\\n",
+        "temp": "",
+        "skip": "0",
+        "strings": true,
+        "include_empty_strings": "",
+        "include_null_values": "",
+        "x": 580,
+        "y": 720,
+        "wires": [
+            [
+                "fadb9e1727011b0d"
+            ]
+        ]
+    },
+    {
+        "id": "fadb9e1727011b0d",
+        "type": "function",
+        "z": "b4f12f6d1a3c50db",
+        "name": "function - Past prediction",
+        "func": "\nvar payload = msg.payload;\n\nvar data_out = [];\nvar a1 = [];\n\nfor (let i = 0; i < payload.length; i++) {\n    var dt = payload[i].dt.split(\"-\");\n    var t = dt[1] + \"/\" + dt[2] + \"/\" + dt[0];\n    var temp1 = { \"x\": payload[i].dt, \"y\": parseInt(payload[i][\"Past Predictions\"]) };\n    a1.push(temp1);\n\n}\ndata_out = [a1];\nmsg.payload = [{\n    \"series\": [\"PastPredictions\"],\n    \"data\": data_out,\n    \"labels\": [\"PastPredictions\"]\n\n\n\n}];\n\nmsg.t = t;\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 870,
+        "y": 720,
+        "wires": [
+            [
+                "a181cd895d1d9443"
+            ]
+        ]
+    },
+    {
+        "id": "a181cd895d1d9443",
+        "type": "ui_chart",
+        "z": "b4f12f6d1a3c50db",
+        "name": "chart - Past prediction",
+        "group": "ef3136ccffadeceb",
+        "order": 2,
+        "width": 8,
+        "height": 10,
+        "label": "",
+        "chartType": "line",
+        "legend": "true",
+        "xformat": "Y-M-D",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "40",
+        "ymax": "100",
+        "removeOlder": "365",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "86400",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 960,
+        "y": 780,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b1d7ece351587073",
+        "type": "serial in",
+        "z": "b4f12f6d1a3c50db",
+        "name": "Arduino UNO",
+        "serial": "879f48b0d7c89f4a",
+        "x": 150,
+        "y": 940,
+        "wires": [
+            [
+                "9908cb955ab829cc",
+                "7f4e33cc510b94c0"
+            ]
+        ]
+    },
+    {
+        "id": "9908cb955ab829cc",
+        "type": "function",
+        "z": "b4f12f6d1a3c50db",
+        "name": "Temperature",
+        "func": "var m = msg.payload.split(',');\nvar T = {payload:parseFloat(m[0])};\n\n\nreturn [T];",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 900,
+        "wires": [
+            [
+                "6e65e9af8330e156",
+                "70c9b59da19dca55"
+            ]
+        ]
+    },
+    {
+        "id": "6e65e9af8330e156",
+        "type": "ui_gauge",
+        "z": "b4f12f6d1a3c50db",
+        "name": "Gauge Temperature",
+        "group": "bc34d2569d05533d",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Temperature",
+        "label": "Celsius",
+        "format": "{{value}}°C",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#eb832d",
+            "#b95504",
+            "#8c3303"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 860,
+        "y": 940,
+        "wires": []
+    },
+    {
+        "id": "bb66cbdc643bcdb1",
+        "type": "ui_gauge",
+        "z": "b4f12f6d1a3c50db",
+        "name": "Gauge Relative Humidity",
+        "group": "bc34d2569d05533d",
+        "order": 3,
+        "width": 8,
+        "height": 5,
+        "gtype": "gage",
+        "title": "Relative Humidity",
+        "label": "Percentage",
+        "format": "{{value}}%",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#53e453",
+            "#05cc12",
+            "#125e03"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 870,
+        "y": 1000,
+        "wires": []
+    },
+    {
+        "id": "70c9b59da19dca55",
+        "type": "debug",
+        "z": "b4f12f6d1a3c50db",
+        "name": "Temp_msg",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 830,
+        "y": 860,
+        "wires": []
+    },
+    {
+        "id": "7f4e33cc510b94c0",
+        "type": "function",
+        "z": "b4f12f6d1a3c50db",
+        "name": "Relative Humidity",
+        "func": "var m = msg.payload.split(',');\n\nvar RH = { payload:parseFloat(m[1]) };\n\nreturn [RH];",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 490,
+        "y": 1020,
+        "wires": [
+            [
+                "6378165488a89b56",
+                "bb66cbdc643bcdb1"
+            ]
+        ]
+    },
+    {
+        "id": "6378165488a89b56",
+        "type": "debug",
+        "z": "b4f12f6d1a3c50db",
+        "name": "RH_MSG",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 820,
+        "y": 1080,
+        "wires": []
+    },
+    {
+        "id": "ed449ec56c025107",
+        "type": "ui_spacer",
+        "z": "b4f12f6d1a3c50db",
+        "name": "spacer",
+        "group": "bc34d2569d05533d",
+        "order": 1,
+        "width": 8,
+        "height": 1
+    },
+    {
+        "id": "dc2367a7c08df4ee",
+        "type": "ui_spacer",
+        "z": "b4f12f6d1a3c50db",
+        "name": "spacer",
+        "group": "ef3136ccffadeceb",
+        "order": 1,
+        "width": 8,
+        "height": 1
+    },
+    {
+        "id": "79711cf0754d978d",
+        "type": "ui_spacer",
+        "z": "b4f12f6d1a3c50db",
+        "name": "spacer",
+        "group": "74963d7a01af305e",
+        "order": 1,
+        "width": 8,
+        "height": 1
+    },
+    {
+        "id": "74963d7a01af305e",
+        "type": "ui_group",
+        "name": "Future 12 Months Relative Humidity",
+        "tab": "253c7beff704b792",
+        "order": 4,
+        "disp": true,
+        "width": 8,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "ef3136ccffadeceb",
+        "type": "ui_group",
+        "name": "Past 12 Months Relative Humidity",
+        "tab": "253c7beff704b792",
+        "order": 3,
+        "disp": true,
+        "width": 8,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "879f48b0d7c89f4a",
+        "type": "serial-port",
+        "serialport": "COM3",
+        "serialbaud": "9600",
+        "databits": "8",
+        "parity": "none",
+        "stopbits": "1",
+        "waitfor": "",
+        "dtr": "none",
+        "rts": "none",
+        "cts": "none",
+        "dsr": "none",
+        "newline": "\\n",
+        "bin": "false",
+        "out": "char",
+        "addchar": "",
+        "responsetimeout": "10000"
+    },
+    {
+        "id": "bc34d2569d05533d",
+        "type": "ui_group",
+        "name": "Real Time Sensor Readings",
+        "tab": "253c7beff704b792",
+        "order": 2,
+        "disp": true,
+        "width": 8,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "253c7beff704b792",
+        "type": "ui_tab",
+        "name": "NODE-RED DASHBOARD VISUALIZATIONS",
+        "icon": "dashboard",
+        "order": 3,
+        "disabled": false,
+        "hidden": false
+    }
+]
